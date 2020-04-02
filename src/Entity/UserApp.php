@@ -2,156 +2,119 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserAppRepository")
+ * UserApp
+ *
+ * @ORM\Table(name="user_app", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_2278114423E5A7D3", columns={"apitoken"}), @ORM\UniqueConstraint(name="UNIQ_22781144F85E0677", columns={"username"})})
+ * @ORM\Entity
  */
 class UserApp
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $firstName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $lastName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $email;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $userAppName;
-
-    /**
-     * @ORM\Column(type="string", length=255)
+     * @var string
+     *
+     * @ORM\Column(name="password", type="string", length=255, nullable=false)
      */
     private $password;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @var json
+     *
+     * @ORM\Column(name="roles", type="json", nullable=false)
+     */
+    private $roles;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="username", type="string", length=180, nullable=false)
+     */
+    private $username;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="apitoken", type="string", length=255, nullable=true)
+     */
+    private $apitoken;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="firstname", type="string", length=255, nullable=true)
+     */
+    private $firstname;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="lastname", type="string", length=255, nullable=true)
+     */
+    private $lastname;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="email", type="string", length=255, nullable=true)
+     */
+    private $email;
+
+    /**
+     * @var bool|null
+     *
+     * @ORM\Column(name="private_mode", type="boolean", nullable=true)
+     */
+    private $privateMode;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="image_profil", type="text", length=0, nullable=true)
+     */
+    private $imageProfil;
+
+    /**
+     * @var string|null
+     *
+     * @ORM\Column(name="bio", type="text", length=0, nullable=true)
      */
     private $bio;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @var bool|null
+     *
+     * @ORM\Column(name="active_couturier", type="boolean", nullable=true)
      */
-    private $photo;
+    private $activeCouturier;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @var float|null
+     *
+     * @ORM\Column(name="longitude", type="float", precision=10, scale=0, nullable=true)
      */
-    private $ratingClient;
+    private $longitude;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @var float|null
+     *
+     * @ORM\Column(name="latitude", type="float", precision=10, scale=0, nullable=true)
      */
-    private $ratingCouturier;
-
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $geoLoc;
-
-    /**
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private $lastLog;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comments", mappedBy="userAppCouturier")
-     */
-    private $commentsClient;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Comments", mappedBy="userAppClient")
-     */
-    private $commentsCouturier;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Retouching", mappedBy="userAppCouturier")
-     */
-    private $retouchings;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Prestation", mappedBy="userAppClient")
-     */
-    private $prestationsClient;
-
-    public function __construct()
-    {
-        $this->commentsClient = new ArrayCollection();
-        $this->commentsCouturier = new ArrayCollection();
-        $this->retouchings = new ArrayCollection();
-        $this->prestationsClient = new ArrayCollection();
-    }
+    private $latitude;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getFirstName(): ?string
-    {
-        return $this->firstName;
-    }
-
-    public function setFirstName(string $firstName): self
-    {
-        $this->firstName = $firstName;
-
-        return $this;
-    }
-
-    public function getLastName(): ?string
-    {
-        return $this->lastName;
-    }
-
-    public function setLastName(string $lastName): self
-    {
-        $this->lastName = $lastName;
-
-        return $this;
-    }
-
-    public function getEmail(): ?string
-    {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    public function getUserAppName(): ?string
-    {
-        return $this->userAppName;
-    }
-
-    public function setUserAppName(string $userAppName): self
-    {
-        $this->userAppName = $userAppName;
-
-        return $this;
     }
 
     public function getPassword(): ?string
@@ -162,6 +125,102 @@ class UserApp
     public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getRoles(): ?array
+    {
+        return $this->roles;
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getApitoken(): ?string
+    {
+        return $this->apitoken;
+    }
+
+    public function setApitoken(?string $apitoken): self
+    {
+        $this->apitoken = $apitoken;
+
+        return $this;
+    }
+
+    public function getFirstname(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstname(?string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    public function getLastname(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastname(?string $lastname): self
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getPrivateMode(): ?bool
+    {
+        return $this->privateMode;
+    }
+
+    public function setPrivateMode(?bool $privateMode): self
+    {
+        $this->privateMode = $privateMode;
+
+        return $this;
+    }
+
+    public function getImageProfil(): ?string
+    {
+        return $this->imageProfil;
+    }
+
+    public function setImageProfil(?string $imageProfil): self
+    {
+        $this->imageProfil = $imageProfil;
 
         return $this;
     }
@@ -178,185 +237,45 @@ class UserApp
         return $this;
     }
 
-    public function getPhoto(): ?string
+    public function getActiveCouturier(): ?bool
     {
-        return $this->photo;
+        return $this->activeCouturier;
     }
 
-    public function setPhoto(?string $photo): self
+    public function setActiveCouturier(?bool $activeCouturier): self
     {
-        $this->photo = $photo;
+        $this->activeCouturier = $activeCouturier;
 
         return $this;
     }
 
-    public function getRatingClient(): ?int
+    public function getLongitude(): ?float
     {
-        return $this->ratingClient;
+        return $this->longitude;
     }
 
-    public function setRatingClient(?int $ratingClient): self
+    public function setLongitude(?float $longitude): self
     {
-        $this->ratingClient = $ratingClient;
+        $this->longitude = $longitude;
 
         return $this;
     }
 
-    public function getRatingCouturier(): ?int
+    public function getLatitude(): ?float
     {
-        return $this->ratingCouturier;
+        return $this->latitude;
     }
 
-    public function setRatingCouturier(?int $ratingCouturier): self
+    public function setLatitude(?float $latitude): self
     {
-        $this->ratingCouturier = $ratingCouturier;
+        $this->latitude = $latitude;
 
         return $this;
     }
 
-    public function getGeoLoc(): ?string
+    // Magic Methods
+    public function __toString()
     {
-        return $this->geoLoc;
+        return $this->username;
     }
-
-    public function setGeoLoc(?string $geoLoc): self
-    {
-        $this->geoLoc = $geoLoc;
-
-        return $this;
-    }
-
-    public function getLastLog(): ?\DateTimeInterface
-    {
-        return $this->lastLog;
-    }
-
-    public function setLastLog(?\DateTimeInterface $lastLog): self
-    {
-        $this->lastLog = $lastLog;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Comments[]
-     */
-    public function getCommentsClient(): Collection
-    {
-        return $this->commentsClient;
-    }
-
-    public function addCommentsClient(Comments $commentsClient): self
-    {
-        if (!$this->commentsClient->contains($commentsClient)) {
-            $this->commentsClient[] = $commentsClient;
-            $commentsClient->setUserAppCouturier($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentsClient(Comments $commentsClient): self
-    {
-        if ($this->commentsClient->contains($commentsClient)) {
-            $this->commentsClient->removeElement($commentsClient);
-            // set the owning side to null (unless already changed)
-            if ($commentsClient->getUserAppCouturier() === $this) {
-                $commentsClient->setUserAppCouturier(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Comments[]
-     */
-    public function getCommentsCouturier(): Collection
-    {
-        return $this->commentsCouturier;
-    }
-
-    public function addCommentsCouturier(Comments $commentsCouturier): self
-    {
-        if (!$this->commentsCouturier->contains($commentsCouturier)) {
-            $this->commentsCouturier[] = $commentsCouturier;
-            $commentsCouturier->setUserAppClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeCommentsCouturier(Comments $commentsCouturier): self
-    {
-        if ($this->commentsCouturier->contains($commentsCouturier)) {
-            $this->commentsCouturier->removeElement($commentsCouturier);
-            // set the owning side to null (unless already changed)
-            if ($commentsCouturier->getUserAppClient() === $this) {
-                $commentsCouturier->setUserAppClient(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Retouching[]
-     */
-    public function getRetouchings(): Collection
-    {
-        return $this->retouchings;
-    }
-
-    public function addRetouching(Retouching $retouching): self
-    {
-        if (!$this->retouchings->contains($retouching)) {
-            $this->retouchings[] = $retouching;
-            $retouching->addUserAppCouturier($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRetouching(Retouching $retouching): self
-    {
-        if ($this->retouchings->contains($retouching)) {
-            $this->retouchings->removeElement($retouching);
-            $retouching->removeUserAppCouturier($this);
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Prestation[]
-     */
-    public function getPrestationsClient(): Collection
-    {
-        return $this->prestationsClient;
-    }
-
-    public function addPrestationsClient(Prestation $prestationsClient): self
-    {
-        if (!$this->prestationsClient->contains($prestationsClient)) {
-            $this->prestationsClient[] = $prestationsClient;
-            $prestationsClient->setUserAppClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removePrestationsClient(Prestation $prestationsClient): self
-    {
-        if ($this->prestationsClient->contains($prestationsClient)) {
-            $this->prestationsClient->removeElement($prestationsClient);
-            // set the owning side to null (unless already changed)
-            if ($prestationsClient->getUserAppClient() === $this) {
-                $prestationsClient->setUserAppClient(null);
-            }
-        }
-
-        return $this;
-    }
-
 }

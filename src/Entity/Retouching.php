@@ -2,149 +2,94 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\RetouchingRepository")
+ * Retouching
+ *
+ * @ORM\Table(name="retouching", indexes={@ORM\Index(name="IDX_466756207FE0A8F4", columns={"category_retouching_id"})})
+ * @ORM\Entity
  */
 class Retouching
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer", nullable=false)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\RetouchingType", inversedBy="retouchings")
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=255, nullable=false)
      */
-    private $retouchingType;
+    private $type;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\UserApp", inversedBy="retouchings")
+     * @var string|null
+     *
+     * @ORM\Column(name="description", type="text", length=0, nullable=true)
      */
-    private $userAppCouturier;
+    private $description;
 
     /**
-     * @ORM\Column(type="integer")
+     * @var \CategoryRetouching
+     *
+     * @ORM\ManyToOne(targetEntity="CategoryRetouching")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="category_retouching_id", referencedColumnName="id")
+     * })
      */
-    private $price;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Prestation", mappedBy="retouching")
-     */
-    private $prestations;
-
-    public function __construct()
-    {
-        $this->retouchingType = new ArrayCollection();
-        $this->userAppCouturier = new ArrayCollection();
-        $this->prestations = new ArrayCollection();
-    }
+    private $categoryRetouching;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Collection|RetouchingType[]
-     */
-    public function getRetouchingType(): Collection
+    public function getType(): ?string
     {
-        return $this->retouchingType;
+        return $this->type;
     }
 
-    public function addRetouchingType(RetouchingType $retouchingType): self
+    public function setType(string $type): self
     {
-        if (!$this->retouchingType->contains($retouchingType)) {
-            $this->retouchingType[] = $retouchingType;
-        }
+        $this->type = $type;
 
         return $this;
     }
 
-    public function removeRetouchingType(RetouchingType $retouchingType): self
+    public function getDescription(): ?string
     {
-        if ($this->retouchingType->contains($retouchingType)) {
-            $this->retouchingType->removeElement($retouchingType);
-        }
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * @return Collection|UserApp[]
-     */
-    public function getUserAppCouturier(): Collection
+    public function getCategoryRetouching(): ?CategoryRetouching
     {
-        return $this->userAppCouturier;
+        return $this->categoryRetouching;
     }
 
-    public function addUserAppCouturier(UserApp $userAppCouturier): self
+    public function setCategoryRetouching(?CategoryRetouching $categoryRetouching): self
     {
-        if (!$this->userAppCouturier->contains($userAppCouturier)) {
-            $this->userAppCouturier[] = $userAppCouturier;
-        }
+        $this->categoryRetouching = $categoryRetouching;
 
         return $this;
     }
 
-    public function removeUserAppCouturier(UserApp $userAppCouturier): self
-    {
-        if ($this->userAppCouturier->contains($userAppCouturier)) {
-            $this->userAppCouturier->removeElement($userAppCouturier);
-        }
-
-        return $this;
-    }
-
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    public function setPrice(int $price): self
-    {
-        $this->price = $price;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection|Prestation[]
-     */
-    public function getPrestations(): Collection
-    {
-        return $this->prestations;
-    }
-
-    public function addPrestation(Prestation $prestation): self
-    {
-        if (!$this->prestations->contains($prestation)) {
-            $this->prestations[] = $prestation;
-            $prestation->addRetouching($this);
-        }
-
-        return $this;
-    }
-
-    public function removePrestation(Prestation $prestation): self
-    {
-        if ($this->prestations->contains($prestation)) {
-            $this->prestations->removeElement($prestation);
-            $prestation->removeRetouching($this);
-        }
-
-        return $this;
-    }
-
+    // Magic Methods
     public function __toString()
     {
-        return $this->userAppCouturier;
+        return $this->type;
     }
 
 }

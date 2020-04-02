@@ -154,6 +154,9 @@
     "psr/container": {
         "version": "1.0.0"
     },
+    "psr/event-dispatcher": {
+        "version": "1.0.0"
+    },
     "psr/link": {
         "version": "1.0.0"
     },
@@ -170,6 +173,18 @@
         },
         "files": [
             "./config/packages/sensio_framework_extra.yaml"
+        ]
+    },
+    "symfony/apache-pack": {
+        "version": "1.0",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.0",
+            "ref": "410b9325a37ef86f1e47262c61738f6202202bca"
+        },
+        "files": [
+            "./public/.htaccess"
         ]
     },
     "symfony/asset": {
@@ -201,9 +216,6 @@
         ]
     },
     "symfony/css-selector": {
-        "version": "v4.4.4"
-    },
-    "symfony/debug": {
         "version": "v4.4.4"
     },
     "symfony/debug-bundle": {
